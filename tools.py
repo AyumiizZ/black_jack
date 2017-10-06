@@ -1,4 +1,5 @@
 import random
+import arcade.key
 class Deck():
     def __init__(self):
         self.card = [True]*52
@@ -16,3 +17,6 @@ class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height
+    def on_key_press(self, key, key_modifiers, player):
+        if key == arcade.key.SPACE:
+            self.player.draw_card()
