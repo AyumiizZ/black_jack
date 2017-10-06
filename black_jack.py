@@ -24,10 +24,10 @@ class gameWindow(arcade.Window):
         for i in self.world.bot.card:
             c+=50
             if self.world.bot.card.index(i) == 0 and not self.world.reveal:
-                self.back_card_sprite.set_position(50+c, 525)
+                self.back_card_sprite.set_position(50+c, 425)
                 self.back_card_sprite.draw()
                 continue
-            self.card_sprite[i].set_position(50+c, 525)
+            self.card_sprite[i].set_position(50+c, 425)
             self.card_sprite[i].draw()
     def on_draw(self):
         arcade.start_render()
