@@ -19,16 +19,19 @@ class gameWindow(arcade.Window):
         self.bot.draw_card()
     def player_show_card(self):
         c = 0
+        # print(self.human.card)
         for i in self.human.card:
             self.card_sprite[i].set_position(100+c, 125)
             self.card_sprite[i].draw()
-            c+=25
+            c+=50
     def bot_show_card(self):
         c = 0
+        # print(self.bot.card)
         for i in self.bot.card:
-            c+=25
+            c+=50
             if self.bot.card.index(i) == 0 and not self.reveal:
                 self.back_card_sprite.set_position(75+c, 525)
+                self.back_card_sprite.draw()
                 continue
             self.card_sprite[i].set_position(75+c, 525)
             self.card_sprite[i].draw()
