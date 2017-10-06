@@ -26,5 +26,7 @@ class World:
         self.human.draw_card() 
         self.bot.draw_card()
     def on_key_press(self, key, key_modifiers):
-        if key == arcade.key.SPACE:
+        if key == arcade.key.SPACE and not self.reveal:
             self.human.draw_card()
+        if key == arcade.key.ENTER:
+            self.reveal = True
