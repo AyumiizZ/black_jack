@@ -17,6 +17,14 @@ class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-    def on_key_press(self, key, key_modifiers, player):
+        self.deck = Deck()
+        self.human = Player(self.deck)
+        self.bot = Player(self.deck)
+        self.reveal = False
+        self.human.draw_card()
+        self.bot.draw_card()
+        self.human.draw_card() 
+        self.bot.draw_card()
+    def on_key_press(self, key, key_modifiers):
         if key == arcade.key.SPACE:
-            self.player.draw_card()
+            self.human.draw_card()
