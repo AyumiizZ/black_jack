@@ -7,6 +7,7 @@ class Player():
     def __init__(self, deck):
         self.card = []
         self.deck = deck
+        self.score = 0
     def draw_card(self):
         card_value = random.randint(0,51)
         while not self.deck.card[card_value]:
