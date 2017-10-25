@@ -1,6 +1,7 @@
 import random
 import arcade
 import tools
+from time import sleep
 class gameWindow(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
@@ -24,7 +25,7 @@ class gameWindow(arcade.Window):
         # print(self.bot.card)
         for i in self.world.bot.card:
             c+=50
-            if self.world.bot.card.index(i) == 0 and not self.world.reveal:
+            if self.world.bot.card.index(i) == 0 and not self.world.human.end:
                 self.back_card_sprite.set_position(c, 450)
                 self.back_card_sprite.draw()
                 continue
@@ -34,27 +35,35 @@ class gameWindow(arcade.Window):
         self.human_score_board = arcade.create_text("Score: " + str(self.world.human.score), arcade.color.BLACK, 12)
         self.bot_score_board = arcade.create_text("Score: " + str(self.world.bot.score), arcade.color.BLACK, 12)
         arcade.render_text(self.human_score_board, 50, 225)
-        if self.world.reveal:
+        if self.world.human.end:
             arcade.render_text(self.bot_score_board, 50, 550)
     def winner(self):
         self.busted = arcade.create_text("Busted!!!",arcade.color.BLACK,12)
         self.human_win = arcade.create_text("You win!!!",arcade.color.BLACK,12)
-        self.bot_win = arcade.create_text("You lose!!!",arcade.color.BLACK,12)
-        if self.world.human.busted or self.world.bot.busted:
-            arcade.render_text(self.busted, 250,250)
-        if self.world.human.score > self.world.bot.score and not self.world.human.busted:
-            arcade.render_text(self.human_win, 250,250)
-        if self.world.human.score < self.world.bot.score and not self.world.bot.busted:
-            arcade.render_text(self.bot_win, 250,250)
+        self.bot_win = arcade.create_text("Dealer win!!!",arcade.color.BLACK,12)
+        if self.world.human.busted:
+            arcade.render_text(self.busted, 250, 250)
+            arcade.render_text(self.bot_win, 300, 300)
+        elif self.world.bot.busted:
+            arcade.render_text(self.busted, 250, 250)
+            arcade.render_text(self.human_win, 300, 300)
+        elif self.world.human.end and self.world.bot.end:
+            if self.world.human.score > self.world.bot.score:
+                arcade.render_text(self.human_win, 250, 250)
+            elif self.world.human.score < self.world.bot.score:
+                arcade.render_text(self.bot_win, 250, 250)
+            else:
+                arcade.render_text(arcade.create_text("Tie!!!",arcade.color.BLACK,12),250,250)
 
     def on_draw(self):
-        print(self.world.human.card)
-        print(self.world.human.score)
         arcade.start_render()
         self.player_show_card()
         self.bot_show_card()
         self.update_score()
         self.winner()
+        self.world.bot_draw()
+        # if self.world.bot_thinking:
+        #     sleep(1)
         
     def on_key_press(self, key, key_modifiers):
         self.world.on_key_press(key, key_modifiers)
