@@ -36,57 +36,55 @@ class Player():
             self.score -= 10
         
 class World:
-    def __init__(self, width, height):
+    def __init__(self, width, height, first_game):
         self.width = width
         self.height = height
+        self.first_game = first_game
         self.deck = Deck()
         self.human = Player(self.deck)
         self.bot = Player(self.deck)
-        # self.reveal = False
         self.human.draw_card()
         self.bot.draw_card()
         self.human.draw_card() 
         self.bot.draw_card()
-        self.game_end = False
         self.bot_thinking = False
-        self.bet = 1500
-        self.this_bet = 0
+        # self.money = money
+        # self.bet = 0
     def on_key_press(self, key, key_modifiers):
-        if key == arcade.key.SPACE and not self.human.end and not self.human.busted:
+        if key == arcade.key.SPACE and not self.human.end and not self.human.busted and not self.first_game:
             self.human.draw_card()
-        if key == arcade.key.ENTER:
-            # self.reveal = True
+        if key == arcade.key.ENTER and not self.first_game:
             self.human.end = True
+        if key == arcade.key.ENTER and self.first_game:
+            sleep(0.25)
+            self.first_game = False
+        if key == arcade.key.F1 and (self.bot.end or self.human.busted or self.bot.busted):
+            self.__init__(self.width,self.height,False)
         # if key == arcade.key.NUM_1:
-        #     self.this_bet += 10
-        #     self.bet -= 10
+        #     self.bet += 10
+        #     self.money -= 10
         # if key == arcade.key.NUM_2:
-        #     self.this_bet += 50
-        #     self.bet -= 50
+        #     self.bet += 50
+        #     self.money -= 50
         # if key == arcade.key.NUM_3:
-        #     self.this_bet += 100
-        #     self.bet -= 100
+        #     self.bet += 100
+        #     self.money -= 100
         # if key == arcade.key.NUM_4:
-        #     self.this_bet += 500
-        #     self.bet -= 500
+        #     self.bet += 500
+        #     self.money -= 500
         
     def bot_draw(self):
-        # print('---')
-        # print(self.reveal)
-        # print(self.game_end)
         if self.human.end and not self.bot.end and not self.human.busted:
-            if self.bot.score == self.bot.score and self.bot.score >= 19:
-                print(1)
+            sleep(1)
+            if self.bot.score == self.human.score and self.bot.score >= 19:
+                # sleep(1)
+                # print(1)
                 self.bot.end = True
             elif self.bot.score > 17 and self.bot.score > self.human.score:
-                print(2)
+                # sleep(1)
+                # print(2)
                 self.bot.end = True
             else:
+                # sleep(1)
                 self.bot.draw_card()
-                print('draw')
-        # and not self.game_end and (self.bot.score <= self.human.score or self.bot.score < 17) and self.bot.score <= 21:
-        #     self.bot_thinking = True
-        #     self.bot.draw_card()
-        # else:
-        #     self.bot.end = True
-        #     self.bot_thinking = False
+                # print('draw')
